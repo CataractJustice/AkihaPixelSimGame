@@ -1,0 +1,66 @@
+{
+	"basic_2d": {
+		"name": "basic_2d",
+		"vert": "basic2dvert",
+		"frag": "basicfrag"
+	},
+	"basic_3d": {
+		"name": "basic_3d",
+		"vert": "basic3dvert",
+		"frag": "basicfrag"
+	},
+	"deferred": {
+		"name": "deferred",
+		"vert": "deferredvert",
+		"frag": "deferredfrag"
+	},
+	"deferredunlit": {
+		"name": "deferredunlit",
+		"vert": "deferredvert",
+		"frag": "deferredfragunlit"
+	},
+	"deferred_triplanar": {
+		"name": "deferred_triplanar",
+		"vert": "deferredvert",
+		"frag": "deferredfragtriplanar"
+	},
+	"empty_3d": {
+		"name": "empty_3d",
+		"vert": "basic3dvert",
+		"frag": "emptyfrag"
+	},
+	"direction_light": {
+		"name": "direction_light",
+		"vert": "basic2dvert",
+		"frag": "directionlight"
+	},
+	"point_light": {
+		"name": "point_light",
+		"vert": "basic2dvert",
+		"frag": "pointlight"
+	},
+	"ambient_light": {
+		"name": "ambient_light",
+		"vert": "basic2dvert",
+		"frag": "ambientlight"
+	},
+	"light_combine": {
+		"name": "light_combine",
+		"vert": "basic2dvert",
+		"frag": "lightcombine"
+	},
+	"basic_text": {
+		"name": "basic_text",
+		"vert": "basic2dvert",
+		"frag": "textfrag"
+	},
+	"ball": {
+		"name": "ball",
+		"vert": "deferredvert",
+		"frag": "deferredfragball"
+	},
+	"spherepostproc": {
+		"vert": "basic2dvert",
+		"frag": "spherepostproc.glsl"
+	}
+}

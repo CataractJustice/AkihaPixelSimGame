@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Editor preferences
+.vscode
+.vs
+.imgui.ini
+
+# Builds
+build
+builds

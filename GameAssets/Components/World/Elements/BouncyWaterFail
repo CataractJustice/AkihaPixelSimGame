@@ -1,0 +1,79 @@
+#include "Water.h"
+#include "Math/randrange.h"
+#include <random>
+
+void Water::particleBehaviour(Particle& particle) 
+{
+	const float elasticity = 0.1f;
+	glm::vec2 initVel = particle.Data().velocity;
+	WorldElement collidedWith;
+
+	while(!particle.move(particle.Data().position + particle.Data().velocity, collidedWith)) 
+	{
+		particle.Data().velocity *= 0.9f;
+	};
+	for(int i = -1; i <= 1; i++)
+	for(int j = -1; j <= 1; j++)
+	{
+		if(i == 0 && j == 0) continue;
+		collidedWith = Particle::world->getElement(glm::ivec2(particle.Data().position) + glm::ivec2(i,j));
+		if(collidedWith.element) 
+		{
+		glm::vec2 otherVel = glm::vec2(0.0f);
+		glm::vec2 normal = glm::vec2(0.0f);
+
+		if(particle.Data().velocity.x > particle.Data().velocity.y && particle.Data().velocity.x > 0.0f) 
+		{
+			normal.x = -1.0f;
+		} 
+		if(particle.Data().velocity.x > particle.Data().velocity.y && particle.Data().velocity.x < 0.0f) 
+		{
+			normal.x = 1.0f;
+		} 
+		if(particle.Data().velocity.y > particle.Data().velocity.x && particle.Data().velocity.y > 0.0f) 
+		{
+			normal.y = -1.0f;
+		} 
+		if(particle.Data().velocity.y > particle.Data().velocity.x && particle.Data().velocity.y < 0.0f) 
+		{
+			normal.y = 1.0f;
+		} 
+		
+		if(collidedWith.particleId) 
+		{
+			normal = particle.Data().position - Particle::getById(collidedWith.particleId).Data().position;
+			otherVel = Particle::getById(collidedWith.particleId).Data().velocity;
+		}
+		
+		normal = glm::normalize(normal);
+		float ua = glm::dot(initVel, -normal);
+		float ub = glm::dot(otherVel, normal);
+		float systemspeed = (ua - ub) / 2.0f;
+		float iv = ua - systemspeed;
+		float C = elasticity;
+		float ma = 1.0f;
+		float mb = collidedWith.particleId ? 1.0f : 1000000.0f;
+		float nv = (ma - mb - mb * C) / (ma + mb) * iv;
+		float nvb = -C / 2.0f * (ub - systemspeed);
+		if (iv >= 0.0f)
+		{
+			particle.Data().velocity = initVel + (normal * (iv - nv));
+			if(collidedWith.particleId)
+				Particle::getById(collidedWith.particleId).Data().velocity = otherVel + (-normal * ((ub - systemspeed) - nvb));
+		}
+		particle.Data().velocity += glm::vec2(randrange(-0.005f, 0.005f), randrange(-0.005f, 0.005f));
+		}
+	}
+	
+	particle.Data().velocity += glm::vec2(0.0f, -0.03f);
+}
+
+void Water::updateBehaviour(glm::ivec2 at, const Particle& by) 
+{
+	WorldElement& wel = Particle::world->getElement(at);
+	
+	if(wel.particleId == 0)
+	{
+		Particle::world->makeParticle(at);
+	}
+}
