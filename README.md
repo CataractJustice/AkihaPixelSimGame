@@ -17,3 +17,4 @@ Game is being made inside Entity-Component based game engine written by me https
 
 # Planned
 - GPU accelerated gas fluid simulation
+- More content
